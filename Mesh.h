@@ -7,6 +7,7 @@
 #include <d3dx12.h>
 #include <vector>
 #include <wrl.h>
+#include <unordered_map>
 
 using namespace DirectX;
 
@@ -103,6 +104,11 @@ class Mesh {
 	/// <param name="cmdList">命令発行先コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
+	inline size_t GetVertexCount() { return vertices.size(); }
+
+	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
+
+	void CalculateSmoothedVertexNormals();
   private: // メンバ変数
 	// 名前
 	std::string name;
@@ -124,4 +130,6 @@ class Mesh {
 	VertexPosNormalUv* vertMap = nullptr;
 	// インデックスバッファのマップ
 	unsigned short* indexMap = nullptr;
+	//頂点法線スムージング用データ
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 };
