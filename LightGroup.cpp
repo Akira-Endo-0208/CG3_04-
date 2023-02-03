@@ -98,7 +98,7 @@ void LightGroup::TransferConstBuffer()
 				constMap->dirLights[i].active = 0;
 			}
 		}
-
+		
 		for (int i = 0; i < PointLightNum; i++)
 		{
 			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çÝ’è‚ð“]‘—
