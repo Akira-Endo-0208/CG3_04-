@@ -15,6 +15,7 @@ cbuffer cbuff1 : register(b1)
 
 static const int  DIR_LIGHT_NUM = 3;
 static const int POINTLIGHT_NUM = 3;
+static const int SPOTLIGHT_NUM = 3;
 
 struct DirLight
 {
@@ -31,11 +32,22 @@ struct PointLight
 	uint active;
 };
 
+struct SpotLight 
+{
+	float3 lightv; //ライトへの方向への逆ベクトル
+	float3 lightpos;	//ライト座標
+	float3 lightcolor;	//ライトの色(RGB)
+	float3 lightatten;	//ライト距離減衰係数
+	float2 lightfactoranglecos;//ライト減衰角度のコサイン
+	uint active;
+};
+
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor_;
 	DirLight dirLights[DIR_LIGHT_NUM];
 	PointLight pointLights[POINTLIGHT_NUM];
+	SpotLight spotLights[SPOTLIGHT_NUM];
 }
 
 

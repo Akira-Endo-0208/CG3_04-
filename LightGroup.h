@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 
 class LightGroup
 {
@@ -25,6 +26,8 @@ public: //定数
 
 	static const int PointLightNum = 3;
 
+	static const int SpotLightNum = 3;
+
 public: //サブクラス
 	//定数バッファ用データ構造体
 	struct ConstBufferData
@@ -37,6 +40,8 @@ public: //サブクラス
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
 		//点光源用
 		PointLight::ConstBufferData pointLights[PointLightNum];
+		//スポットライト用
+		SpotLight::ConstBufferData spotLights[SpotLightNum];
 
 	};
 public: //静的メンバ関数
@@ -81,6 +86,21 @@ public: //アクセッサ
 	void SetPointLightColor(int index, const XMFLOAT3& lightcolor);
 
 	void SetPointLightAtten(int index, const XMFLOAT3& lightAtten);
+
+
+
+	void SetSpotLightActive(int index, bool active);
+
+	void SetSpotLightDir(int index, const XMVECTOR& lightdir);
+
+	void SetSpotLightPos(int index, const XMFLOAT3& lightpos);
+
+	void SetSpotLightColor(int index, const XMFLOAT3& lightcolor);
+
+	void SetSpotLightAtten(int index, const XMFLOAT3& lightAtten);
+
+	void SetSpotLightFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
+
 private: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff_;
@@ -99,5 +119,8 @@ private: //メンバ変数
 	bool dirty_ = false;
 
 	PointLight pointLights[PointLightNum];
+
+	SpotLight spotLights[SpotLightNum];
+
 };
 

@@ -115,8 +115,24 @@ void LightGroup::TransferConstBuffer()
 				constMap->pointLights[i].active = 0;
 			}
 		}
-		constBuff_->Unmap(0, nullptr);
 
+		for (int i = 0; i < SpotLightNum; i++)
+		{
+			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çÝ’è‚ð“]‘—
+			if (spotLights[i].IsActive()) {
+				constMap->spotLights[i].active = 1;
+				constMap->spotLights[i].lightv = -spotLights[i].GetLightDir();
+				constMap->spotLights[i].lightpos = spotLights[i].GetLightPos();
+				constMap->spotLights[i].lightcolor = spotLights[i].GetLightColor();
+				constMap->spotLights[i].lightatten = spotLights[i].GetLightAtten();
+				constMap->spotLights[i].lightActorAnglecos = spotLights[i].GetLightFactorAngleCos();
+
+			}
+			else {
+				constMap->spotLights[i].active = 0;
+			}
+		}
+		constBuff_->Unmap(0, nullptr);
 	}
 }
 
@@ -187,6 +203,47 @@ void LightGroup::SetPointLightAtten(int index, const XMFLOAT3& lightAtten)
 {
 	assert(0 <= index && index < PointLightNum);
 	pointLights[index].SetLightAtten(lightAtten);
+	dirty_ = true;
+}
+
+void LightGroup::SetSpotLightActive(int index, bool active)
+{
+	assert(0 <= index && index < SpotLightNum);
+	spotLights[index].SetActive(active);
+}
+
+void LightGroup::SetSpotLightDir(int index, const XMVECTOR& lightdir)
+{
+	assert(0 <= index && index < SpotLightNum);
+	spotLights[index].SetLightDir(lightdir);
+	dirty_ = true;
+}
+
+void LightGroup::SetSpotLightPos(int index, const XMFLOAT3& lightpos)
+{
+	assert(0 <= index && index < SpotLightNum);
+	spotLights[index].SetLightPos(lightpos);
+	dirty_ = true;
+}
+
+void LightGroup::SetSpotLightColor(int index, const XMFLOAT3& lightcolor)
+{
+	assert(0 <= index && index < SpotLightNum);
+	spotLights[index].SetLightColor(lightcolor);
+	dirty_ = true;
+}
+
+void LightGroup::SetSpotLightAtten(int index, const XMFLOAT3& lightAtten)
+{
+	assert(0 <= index && index < SpotLightNum);
+	spotLights[index].SetLightAtten(lightAtten);
+	dirty_ = true;
+}
+
+void LightGroup::SetSpotLightFactorAngle(int index, const XMFLOAT2& lightFactorAngle)
+{
+	assert(0 <= index && index < SpotLightNum);
+	spotLights[index].SetLightFactorAngle(lightFactorAngle);
 	dirty_ = true;
 }
 
